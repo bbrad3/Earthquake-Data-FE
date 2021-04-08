@@ -4,7 +4,7 @@
 > Web application that connects to the USGS Earthquake Catalog. The user will be able to look up earthquake data based on different time-frames or locations.
 > I am building this app to practice full-stack developement, user authorization, 3rd party API's, and play with Three.js!
 ## WIREFRAMES
-![ERD](misc/erd.png)
+![ERD](misc/ERD.png)
 
 - Home Page: Shows globe animated to spin and example quakes animations.
 ![Home-Page](misc/Home-Page.png)
