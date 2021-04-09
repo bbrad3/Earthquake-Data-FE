@@ -32,18 +32,43 @@ body {
 }
 
 #content {
+    position: relative;
     display: flex;
     justify-content: space-between;
-    width: 90%;
-    margin: 0 auto;
 }
 
 #canvas {
-    z-index: -1;
+    position: absolute;
 }
 .view {
-    z-index: 1;
+    background-color: coral;
+    border: 1px solid black;
+    border-radius: 1.5rem;
+    position: absolute;
+    top: 60px;
+    left: 10%;
 }
+#signupView form, #loginView form {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#allLocations {
+    margin: 5px;
+    height: 90vh;
+    overflow-y: scroll;
+}
+.locationRow {
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.locationRow p {
+    margin: 5px 10px;
+}
+
 
 .hidden {
     display: none;

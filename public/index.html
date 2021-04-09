@@ -15,11 +15,12 @@
             <span class="nav-link" id="Login-link">Login</span>
             <span class="nav-link" id="Logout-link">Logout</span>
             <span class="nav-link" id="Profile-link">Profile</span>
+            <span class="nav-link" id="Locations-link">Locations</span>
         </span>
     </nav>
     
-    <canvas id="canvas" width="500" height="500"></canvas>
     <div id="content">
+        <canvas id="canvas" width="500" height="500"></canvas>
     
         <div class="view" id="homeView"></div>
 
@@ -49,6 +50,11 @@
         </div>
 
         <div class="view hidden" id="profileView"></div>
+        <div class="view hidden" id="locationsView">
+            <div id="allLocations">
+                
+            </div>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>

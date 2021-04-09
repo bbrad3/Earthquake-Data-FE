@@ -9,12 +9,16 @@ const signupLink = document.querySelector('#Signup-link')
 const loginLink = document.querySelector('#Login-link')
 const logoutLink = document.querySelector('#Logout-link')
 const profileLink = document.querySelector('#Profile-link')
+const locationsLink = document.querySelector('#Locations-link')
 
 const views = document.querySelectorAll('.view')
 const homeView = document.querySelector('#homeView')
 const signupView = document.querySelector('#signupView')
 const loginView = document.querySelector('#loginView')
 const profileView = document.querySelector('#profileView')
+
+const locationsView = document.querySelector('#locationsView')
+const allLocationsDiv = document.querySelector('#allLocations')
 
 const signupForm = document.querySelector('#signupForm')
 const loginForm = document.querySelector('#loginForm')
@@ -57,11 +61,13 @@ function checkLoggedIn() {
         loginLink.classList.add('hidden')
         logoutLink.classList.remove('hidden')
         profileLink.classList.remove('hidden')
+        locationsLink.classList.remove('hidden')
     } else {
         signupLink.classList.remove('hidden')
         loginLink.classList.remove('hidden')
         logoutLink.classList.add('hidden')
         profileLink.classList.add('hidden')
+        locationsLink.classList.remove('hidden')
     }
 }
 checkLoggedIn() // RUN ON PAGE LOAD/REFRESH
@@ -111,7 +117,6 @@ async function userLogin() {
         })
         console.log('signin response', response.status, response)
         const data = response.data
-        console.log(data)
         if(data.status === 200) {
             localStorage.setItem('userId', data.userId)
             goHome()
@@ -130,3 +135,54 @@ logoutLink.addEventListener('click', () => {
     goHome()
     checkLoggedIn()
 })
+
+
+// LOCATIONS
+locationsLink.addEventListener('click', async (e) => {
+    e.preventDefault
+    getAllLocations()
+})
+async function getAllLocations() {
+    try {
+        const response = await axios.get(`${backendUrl}/locations/all`)
+        console.log('LOCATIONS RESPONSE', response.status, response)
+        const data = response.data
+        if(data.status === 200) {
+            console.log('Here is your locations data...', data)
+            hideViews()
+            buildLocationsDisplay(data.locations)
+            locationsView.classList.remove('hidden')
+        }
+    } catch (error) {
+        console.log('getAllLocations Error:', error)
+    }
+}
+function buildLocationsDisplay(data) {
+    // city, country, latitude, longitude
+    data.forEach(local => {
+        const row = document.createElement('div')
+        row.classList.add('locationRow')
+        allLocationsDiv.append(row)
+    
+        const city = document.createElement('p')
+        city.classList.add('city')
+        city.innerHTML = `City: ${local.city}`
+        row.append(city)
+
+        const country = document.createElement('p')
+        country.classList.add('country')
+        country.innerHTML = `Country: ${local.country}`
+        row.append(country)
+
+        const latitude = document.createElement('p')
+        latitude.classList.add('latitude')
+        latitude.innerHTML = `Latitude: ${local.latitude}`
+        row.append(latitude)
+
+        const longitude = document.createElement('p')
+        longitude.classList.add('longitude')
+        longitude.innerHTML = `Longitude: ${local.longitude}`
+        row.append(longitude)
+
+    })
+}
