@@ -1,8 +1,13 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 const routesReport = require('rowdy-logger').begin(app)
 const path = require('path')
+
+// MIDDLEWARE
+// app.use(express.static('public'))
+app.use(morgan('dev'))
 
 app.get('/', (req, res) => {
     const filepath = path.join(__dirname, 'index.html')
@@ -52,7 +57,8 @@ app.get('/misc/space.jpg', (req, res) => {
   res.type('css').sendFile(filepath)
 })
 
-const port = process.env.PORT || 5500
-app.listen(port, () => {
+const PORT = process.env.PORT || 3005
+app.listen(PORT, () => {
     routesReport.print()
+    console.log(`Server listening on port ${PORT}`)
 })
