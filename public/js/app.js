@@ -52,7 +52,7 @@ function goHome() {
     homeView.classList.remove('hidden')
 }
 function checkLoggedIn() {
-    if(localStorage.getItem('userId')){
+    if(localStorage.getItem('userId') && localStorage.getItem('userId') !== undefined){
         signupLink.classList.add('hidden')
         loginLink.classList.add('hidden')
         logoutLink.classList.remove('hidden')
@@ -84,12 +84,12 @@ async function userSignup() {
             password: password
         })
         console.log('signup response', response.status, response)
-        if(response.status === 200) {
-            const user = response.data.user
-            localStorage.setItem('userId', user.id)
+        const data = response.data
+        if(data.status === 200) {
+            localStorage.setItem('userId', data.userId)
             goHome()
             checkLoggedIn()
-            alert(`Welcome ${user.username}`)
+            alert(`Welcome ${data.user.username}`)
         }
     } catch (error) {
         console.log('userSignup Error:', error)
@@ -109,13 +109,14 @@ async function userLogin() {
             email: email,
             password: password
         })
-        console.log('signup response', response.status, response)
-        if(response.status === 200) {
-            const user = response.data.user
-            localStorage.setItem('userId', user.id)
+        console.log('signin response', response.status, response)
+        const data = response.data
+        console.log(data)
+        if(data.status === 200) {
+            localStorage.setItem('userId', data.userId)
             goHome()
             checkLoggedIn()
-            alert(`Welcome ${user.username}`)
+            alert(`Welcome ${data.user.username}`)
         }
     } catch (error) {
         console.log('userLogin Error:', error)
