@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quake-n-bake</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <nav id="navbar">
+        <span class="nav-link" id="Brand-link">Earthquake Data Visualizer</span>
+        <span id="small-links">
+            <span class="nav-link" id="Signup-link">Signup</span>
+            <span class="nav-link" id="Login-link">Login</span>
+            <span class="nav-link" id="Logout-link">Logout</span>
+            <span class="nav-link" id="Profile-link">Profile</span>
+        </span>
+    </nav>
+    
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <div id="content">
+    
+        <div class="view" id="homeView"></div>
+
+        <div class="view hidden" id="signupView">
+            <form id="signupForm">
+                <label for="username-signup">Username:</label>
+                <input type="text" id="username-signup" required>
+    
+                <label for="email-signup">Email:</label>
+                <input type="email" id="email-signup" required>
+    
+                <label for="password-signup">Password:</label>
+                <input type="text" id="password-signup" required>
+            </form>
+        </div>
+
+        <div class="view hidden" id="loginView">
+            <form id="loginForm">
+                <label for="email-login">Email:</label>
+                <input type="email" id="email-login" required>
+    
+                <label for="password-login">Password:</label>
+                <input type="text" id="password-login" required>
+            </form>
+        </div>
+
+        <div class="view hidden" id="profileView"></div>
+    </div>
+
+
+    <script src="./js/three.js"></script>
+    <script src="./js/orbitControls.js"></script>
+    <script src="./js/tryAgain.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
