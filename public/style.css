@@ -37,36 +37,72 @@ body {
     justify-content: space-between;
 }
 
-#canvas {
+#container {
     position: absolute;
 }
 .view {
-    background-color: coral;
-    border: 1px solid black;
+    background-color: rgba(255, 127, 80, 0);
     border-radius: 1.5rem;
-    position: absolute;
-    top: 60px;
-    left: 10%;
-}
-#signupView form, #loginView form {
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
 }
 
-#allLocations {
+#show {
+    background-color: rgba(255, 255, 255, 0.25);
+    margin: 0px 20px;
+    width: 35%;
+    position: absolute;
+    top: 0px;
+    left: 65%;
+}
+
+#signupView, #loginView {
+    position: absolute;
+    top: 0px;
+    left: 10%;
+    margin: 10px 20px;
+}
+
+form input::placeholder {
+    opacity: 0.75;
+    color: white;
+}
+
+form input, form button {
+    margin-right: 15px;
+    padding: 3px 8px;
+    background-color: rgba(255, 134, 41, 0.8);
+    text-align: center;
+    border-radius: 1rem;
+    color: white;
+}
+
+#allLocations, #savedLocations {
     margin: 5px;
     height: 90vh;
     overflow-y: scroll;
 }
-.locationRow {
-    border: 1px solid black;
+.locationRow, #userInfo {
+    background-color: coral;
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
 }
+.columnLabel {
+    width: 20%;
+    text-align: center;
+    font-weight: 600;
+}
 .locationRow p {
-    margin: 5px 10px;
+    width: 20%;
+    text-align: center;
+}
+.locationRow img {
+    width: 25px;
+    height: 25px;
+}
+.locationRow img:hover {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
 }
 
 

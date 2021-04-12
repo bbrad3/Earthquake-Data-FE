@@ -15,7 +15,10 @@ const views = document.querySelectorAll('.view')
 const homeView = document.querySelector('#homeView')
 const signupView = document.querySelector('#signupView')
 const loginView = document.querySelector('#loginView')
+
 const profileView = document.querySelector('#profileView')
+const userInfoDiv = document.querySelector('#userInfo')
+const savedLocationsDiv = document.querySelector('#savedLocations')
 
 const locationsView = document.querySelector('#locationsView')
 const allLocationsDiv = document.querySelector('#allLocations')
@@ -136,6 +139,43 @@ logoutLink.addEventListener('click', () => {
     checkLoggedIn()
 })
 
+// PROFILE
+profileLink.addEventListener('click', async (e) => {
+    e.preventDefault()
+    try {
+        const userId = localStorage.getItem('userId')
+        const response = await axios.get(`${backendUrl}/user/find`, {
+            headers: {
+                authorization: userId
+            }
+        })
+        // console.log('PROFILE RESPONSE', response)
+        const data = response.data
+        if(data.status === 200){
+            console.log('user', data.user)
+            buildUserProfile(data.user)
+        }
+    } catch (error) {
+        console.log('Profile link error:', error)
+    }
+})
+function buildUserProfile(user) {
+    // userInfo
+    const username = document.createElement('p')
+    username.innerHTML = `${user.username}`
+    userInfoDiv.append(username)
+
+    const email = document.createElement('p')
+    email.innerHTML = `${user.email}`
+    userInfoDiv.append(email)
+
+    const memberSince = document.createElement('p')
+    memberSince.innerHTML = `${user.createdAt.slice(0,11)}`
+    userInfoDiv.append(memberSince)
+
+    // savedLocations
+    buildLocationsDisplay(user.locations, savedLocationsDiv) // will need to refactor to make work
+}
 
 // LOCATIONS
 locationsLink.addEventListener('click', async (e) => {
@@ -145,44 +185,129 @@ locationsLink.addEventListener('click', async (e) => {
 async function getAllLocations() {
     try {
         const response = await axios.get(`${backendUrl}/locations/all`)
-        console.log('LOCATIONS RESPONSE', response.status, response)
+        // console.log('LOCATIONS RESPONSE', response.status, response)
         const data = response.data
         if(data.status === 200) {
-            console.log('Here is your locations data...', data)
+            // console.log('Here is your locations data...', data)
             hideViews()
-            buildLocationsDisplay(data.locations)
+            buildLocationsDisplay(data.locations, allLocationsDiv)
             locationsView.classList.remove('hidden')
         }
     } catch (error) {
         console.log('getAllLocations Error:', error)
     }
 }
-function buildLocationsDisplay(data) {
-    // city, country, latitude, longitude
+function buildLocationsDisplay(data, parentDiv) {
+    // add/remove, city, country, latitude, longitude
+    buildLocationLabels()
+
     data.forEach(local => {
         const row = document.createElement('div')
         row.classList.add('locationRow')
-        allLocationsDiv.append(row)
-    
+        parentDiv.append(row)
+
+        const imgP = document.createElement('p')
+        const imgBtn = document.createElement('img')
+        if(parentDiv === savedLocationsDiv) {
+            imgBtn.setAttribute('src', '../assets/flaticon/png/006-x-button.png')
+        } else if(parentDiv === allLocationsDiv) {
+            imgBtn.setAttribute('src', '../assets/flaticon/png/005-plus.png')
+        }
+        imgP.append(imgBtn)
+        row.append(imgP)
+
         const city = document.createElement('p')
         city.classList.add('city')
-        city.innerHTML = `City: ${local.city}`
+        city.innerHTML = `${local.city}`
         row.append(city)
 
         const country = document.createElement('p')
         country.classList.add('country')
-        country.innerHTML = `Country: ${local.country}`
+        country.innerHTML = `${local.country}`
         row.append(country)
 
         const latitude = document.createElement('p')
         latitude.classList.add('latitude')
-        latitude.innerHTML = `Latitude: ${local.latitude}`
+        latitude.innerHTML = `${local.latitude}`
         row.append(latitude)
 
         const longitude = document.createElement('p')
         longitude.classList.add('longitude')
-        longitude.innerHTML = `Longitude: ${local.longitude}`
+        longitude.innerHTML = `${local.longitude}`
         row.append(longitude)
 
+        imgBtn.addEventListener('click', (e) => { // associate location to user
+            if(e.target.getAttribute('src') === '../assets/flaticon/png/005-plus.png') {
+                e.target.setAttribute('src', '../assets/flaticon/png/004-checked.png')
+                associateLocation(local)
+            } else if(e.target.getAttribute('src') === '../assets/flaticon/png/006-x-button.png') {
+                deleteAssociation(local)
+            }
+        })
     })
+}
+function buildLocationLabels() {
+    const row = document.createElement('div')
+    row.classList.add('locationRow')
+    allLocationsDiv.append(row)
+
+    const favPlaceholder = document.createElement('p')
+    favPlaceholder.classList.add('columnLabel')
+    row.append(favPlaceholder)
+    
+    const cityLabel = document.createElement('p')
+    cityLabel.classList.add('columnLabel')
+    cityLabel.innerHTML = `City`
+    row.append(cityLabel)
+
+    const countryLabel = document.createElement('p')
+    countryLabel.classList.add('columnLabel')
+    countryLabel.innerHTML = `Country`
+    row.append(countryLabel)
+
+    const latitudeLabel = document.createElement('p')
+    latitudeLabel.classList.add('columnLabel')
+    latitudeLabel.innerHTML = `Latitude`
+    row.append(latitudeLabel)
+
+    const longitudeLabel = document.createElement('p')
+    longitudeLabel.classList.add('columnLabel')
+    longitudeLabel.innerHTML = `Longitude`
+    row.append(longitudeLabel)
+}
+
+async function associateLocation(local) {
+    try {
+        const userId = localStorage.getItem('userId')
+        const response = await axios.post(`${backendUrl}/locations/associate`, {
+            headers: {
+                authorization: userId,
+                local
+            }
+        })
+        console.log('ASSOCIATE RESPONSE', response)
+        if(response.status === 200) {
+            console.log(response.data.message, response.data.association)
+        }
+    } catch (error) {
+        console.log('Association error:', error)
+    }
+}
+async function deleteAssociation(local) {
+    try {
+        console.log('local', local)
+        const userId = localStorage.getItem('userId')
+        const response = await axios.delete(`${backendUrl}/locations/un-associate`, {
+            headers: {
+                authorization: userId,
+            },
+            local
+        })
+        console.log('UNASSOCIATE RESPONSE', response)
+        if(response.status === 200) {
+            console.log(response.data.message, response.data.association)
+        }
+    } catch (error) {
+        console.log('Un-Association error:', error)
+    }
 }
