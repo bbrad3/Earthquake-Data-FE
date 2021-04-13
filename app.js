@@ -1,6 +1,10 @@
 console.log('Hello from app.js')
 // GLOBAL VARIABLES
 const backendUrl = 'http://localhost:3001'
+export const DATA = {
+    DBLOCATIONS: [],
+    QUAKES: []
+}
 
 // DOM SELECTORS
 const navLinks = document.querySelectorAll('.nav-link')
@@ -9,12 +13,18 @@ const signupLink = document.querySelector('#Signup-link')
 const loginLink = document.querySelector('#Login-link')
 const logoutLink = document.querySelector('#Logout-link')
 const profileLink = document.querySelector('#Profile-link')
+const searchLink = document.querySelector('#Search-link')
 const locationsLink = document.querySelector('#Locations-link')
 
 const views = document.querySelectorAll('.view')
 const homeView = document.querySelector('#homeView')
 const signupView = document.querySelector('#signupView')
 const loginView = document.querySelector('#loginView')
+
+const searchView = document.querySelector('#searchView')
+const searchBtn = document.querySelector('#searchBtn')
+let searchLocations = document.querySelector('#searchLocations')
+const searchResults = document.querySelector('#searchResults')
 
 const profileView = document.querySelector('#profileView')
 const editProfile = document.querySelector('#editProfile')
@@ -49,6 +59,12 @@ profileLink.addEventListener('click', (e) => {
     e.preventDefault()
     hideViews()
     profileView.classList.remove('hidden')
+})
+searchLink.addEventListener('click', (e) => {
+    e.preventDefault()
+    hideViews()
+    searchView.classList.remove('hidden')
+    getUserLocations()
 })
 
 // REUSABLE FUNCTIONS
@@ -392,4 +408,104 @@ async function deleteAssociation(local) {
     } catch (error) {
         console.log('Un-Association error:', error)
     }
+}
+
+// SEARCH!!!!
+async function getUserLocations() {
+    try {
+        const userId = localStorage.getItem('userId')
+        const response = await axios.get(`${backendUrl}/user/find`, {
+            headers: {
+                authorization: userId
+            }
+        })
+        // console.log('USER LOCATIONS RESPONSE', response)
+        const data = response.data
+        if(data.status === 200) {
+            console.log('user', data.user)
+            buildSearchOptions(data.user.locations)
+        }
+    } catch (error) {
+        console.error('Could not get user locations:', error)
+    }
+}
+function buildSearchOptions(locations) {
+    const option = document.createElement('option')
+    option.innerHTML = '--none--'
+    searchLocations.append(option)
+
+    locations.forEach(l => {
+        const locationName = `${l.city}, ${l.country}`
+        const locationCoords = `${l.latitude},${l.longitude}`
+
+        const option = document.createElement('option')
+        option.innerHTML = locationName
+        option.setAttribute('value', locationCoords)
+        searchLocations.append(option)
+    })
+}
+searchBtn.addEventListener('click', () => {
+    const timeFrameselect = document.querySelector('#timeframe')
+    searchLocations = document.querySelector('#searchLocations')
+    let timeframe = timeFrameselect.value
+    let location = searchLocations.value
+
+    console.log('location', location);
+    searchForQuakes(timeframe, location)
+})
+async function searchForQuakes(timeframe, location) {
+    try {
+        let response = ''
+        if(location === '--none--') {
+            response = await axios.get(`${backendUrl}/search/${timeframe}`)
+        } else {
+            let coordsArr = location.split(',')
+            let latitude = coordsArr[0]
+            let longitude = coordsArr[1]
+            response = await axios.get(`${backendUrl}/search/location`, {
+                headers: {
+                    lat: latitude,
+                    long: longitude,
+                    radius: 100
+                }
+            })
+        }
+        console.log('SEARCH RESPONSE', timeframe, response.data, response.data.quakes)
+        buildSearchResults(response.data.quakes)
+    } catch (error) {
+        console.error('Time frame search error:', error)
+    }
+}
+function buildSearchResults(quakes) {
+    while(searchResults.firstChild){
+        searchResults.firstChild.remove()
+    }
+    DATA.QUAKES = []
+    // coords, depth, mag, place, type
+    // coords, depth
+    quakes.forEach(quake => {
+        DATA.QUAKES.push(quake.coords)
+
+        const row = document.createElement('div')
+        row.classList.add('locationRow')
+        searchResults.append(row)
+
+        if(quake.mag && quake.place) {
+            const place = document.createElement('p')
+            place.innerHTML = quake.place
+            row.append(place)
+
+            const mag = document.createElement('p')
+            mag.innerHTML = quake.mag
+            row.append(mag)
+        }
+
+        const coords = document.createElement('p')
+        coords.innerHTML = `${quake.coords[0]}, ${quake.coords[1]}`
+        row.append(coords)
+
+        const depth = document.createElement('p')
+        depth.innerHTML = quake.depth
+        row.append(depth)
+    })
 }

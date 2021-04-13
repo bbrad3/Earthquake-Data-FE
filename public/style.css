@@ -77,7 +77,7 @@ form input, form button {
     color: white;
 }
 
-#allLocations, #savedLocations {
+#allLocations, #savedLocations, #searchResults {
     margin: 5px;
     height: 80vh;
     overflow-y: scroll;
