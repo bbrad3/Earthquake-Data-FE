@@ -1,0 +1,119 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#navbar {
+    background-color: rgb(205, 254, 238);
+    display: flex;
+    justify-content: space-evenly;
+    /* align-content: center; */
+    width: 100vw;
+    margin: 0 auto;
+    padding: 10px 30px;
+    font-weight: 600;
+}
+.nav-link {
+    cursor: pointer;
+}
+.nav-link:hover {
+    text-decoration: underline;
+}
+#Brand-link {
+    font-size: 2rem;
+}
+#small-links {
+    background-color: aquamarine;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-self: flex-end;
+    width: 30%;
+}
+
+#content {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+#container {
+    position: absolute;
+}
+.view {
+    background-color: rgba(255, 127, 80, 0);
+    border-radius: 1.5rem;
+}
+
+#show {
+    background-color: rgba(255, 255, 255, 0.25);
+    /* margin: 0px 20px; */
+    width: 35%;
+    max-width: 500px;
+    min-width: 400px;
+    position: absolute;
+    top: 0px;
+    right: 0%;
+}
+
+#signupView, #loginView {
+    position: absolute;
+    top: 0px;
+    left: 10%;
+    margin: 10px 20px;
+}
+
+form input::placeholder {
+    opacity: 0.75;
+    color: white;
+}
+
+form input, form button {
+    margin-right: 15px;
+    padding: 3px 8px;
+    background-color: rgba(255, 134, 41, 0.8);
+    text-align: center;
+    border-radius: 1rem;
+    color: white;
+}
+
+#allLocations, #savedLocations {
+    margin: 5px;
+    height: 80vh;
+    overflow-y: scroll;
+}
+.locationRow, .userForm {
+    background-color: coral;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.userForm {
+    justify-content: space-evenly;
+}
+.userForm input {
+    width: 30%;
+}
+.columnLabel {
+    width: 20%;
+    text-align: center;
+    font-weight: 600;
+}
+.locationRow p {
+    width: 20%;
+    text-align: center;
+}
+.locationRow img {
+    width: 25px;
+    height: 25px;
+}
+.locationRow img:hover {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+
+.hidden {
+    display: none;
+}
