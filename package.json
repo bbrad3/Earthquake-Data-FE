@@ -4,7 +4,7 @@
   "description": "Web application that connects to the USGS Earthquake Catalog. The user will be able to look up earthquake data based on different time-frames or locations. I am building this app to practice full-stack developement, user authorization, 3rd party API's, and play with Three.js!",
   "main": "app.js",
   "engines": {
-    "node": "*"
+    "node": "15.12.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
