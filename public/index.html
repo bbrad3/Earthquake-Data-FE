@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quake-n-bake</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <nav id="navbar">
+        <span class="nav-link" id="Brand-link">Earthquake Data Visualizer</span>
+        <span id="small-links">
+            <span class="nav-link" id="Signup-link">Signup</span>
+            <span class="nav-link" id="Login-link">Login</span>
+            <span class="nav-link" id="Logout-link">Logout</span>
+            <span class="nav-link" id="Profile-link">Profile</span>
+            <span class="nav-link" id="Locations-link">Locations</span>
+        </span>
+    </nav>
+
+    <div id="content">
+        <div id="container"></div> <!-- threejs globe -->
+        <div id="show">
+            <div class="view hidden" id="profileView">
+                <div id="userInfo"></div>
+                <div id="savedLocations"></div>
+            </div>
+            <div class="view hidden" id="locationsView">
+                <div id="allLocations">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="view" id="homeView"></div>
+
+        <div class="view hidden" id="signupView">
+            <form id="signupForm">
+                <!-- <label for="username-signup">Username:</label> -->
+                <input type="text" id="username-signup" placeholder="Username" required>
+    
+                <!-- <label for="email-signup">Email:</label> -->
+                <input type="email" id="email-signup" placeholder="Email" required>
+    
+                <!-- <label for="password-signup">Password:</label> -->
+                <input type="text" id="password-signup" placeholder="Password" required>
+                <button type="submit">Signup</button>
+            </form>
+        </div>
+
+        <div class="view hidden" id="loginView">
+            <form id="loginForm">
+                <!-- <label for="email-login">Email:</label> -->
+                <input type="email" id="email-login" placeholder="Email" required>
+    
+                <!-- <label for="password-login">Password:</label> -->
+                <input type="text" id="password-login" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        
+    </div>
+    <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-buddha" title="Pixel Buddha">Pixel Buddha</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div><div>Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div><div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div><div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+    
+    <script type="module" src="./threejs/globe.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
