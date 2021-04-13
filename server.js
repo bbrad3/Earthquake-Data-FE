@@ -4,6 +4,7 @@ const app = express()
 
 const routesReport = require('rowdy-logger').begin(app)
 const path = require('path')
+const replaceInFile = require('replace-in-file')
 
 // MIDDLEWARE
 app.use(morgan('dev'))
