@@ -7,6 +7,16 @@ const path = require('path')
 
 // MIDDLEWARE
 app.use(morgan('dev'))
+app.use(async (req, res, next) => {
+    if (process.env.NODE_ENV === 'production') {
+      await replaceInFile({
+        files: filepath,
+        from: 'http://localhost:3001',
+        to: 'https://earthquake-data-be.herokuapp.com'
+      })
+    }
+    next()
+  })
 app.use(express.static('public'))
 // app.use(express.static(path.join(__dirname, 'misc')))
 // app.use(express.static(path.join(__dirname, 'js')))
