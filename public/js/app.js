@@ -17,6 +17,9 @@ const signupView = document.querySelector('#signupView')
 const loginView = document.querySelector('#loginView')
 
 const profileView = document.querySelector('#profileView')
+const editProfile = document.querySelector('#editProfile')
+const deleteProfile = document.querySelector('#deleteProfile')
+
 const userInfoDiv = document.querySelector('#userInfo')
 const savedLocationsDiv = document.querySelector('#savedLocations')
 
@@ -161,20 +164,95 @@ profileLink.addEventListener('click', async (e) => {
 })
 function buildUserProfile(user) {
     // userInfo
-    const username = document.createElement('p')
-    username.innerHTML = `${user.username}`
-    userInfoDiv.append(username)
+    while(userInfoDiv.firstChild) {
+        userInfoDiv.firstChild.remove()
+    }
+    const row = document.createElement('form')
+    row.classList.add('userForm')
+    userInfoDiv.append(row)
+    // row.addEventListener('submit', )
 
-    const email = document.createElement('p')
-    email.innerHTML = `${user.email}`
-    userInfoDiv.append(email)
+    const username = document.createElement('input')
+    username.classList.add('userInfoForm')
+    username.setAttribute('disabled', true)
+    username.value = `${user.username}`
+    row.append(username)
 
-    const memberSince = document.createElement('p')
-    memberSince.innerHTML = `${user.createdAt.slice(0,11)}`
-    userInfoDiv.append(memberSince)
+    const email = document.createElement('input')
+    email.classList.add('userInfoForm')
+    email.setAttribute('disabled', true)
+    email.value = `${user.email}`
+    row.append(email)
+
+    const memberSince = document.createElement('input')
+    memberSince.classList.add('userInfoForm')
+    memberSince.setAttribute('disabled', true)
+    memberSince.value = `${user.createdAt.slice(0,10)}`
+    row.append(memberSince)
+
+    const btns = document.createElement('div')
+    userInfoDiv.append(btns)
+
+    
+    const editProfile = document.createElement('button')
+    editProfile.innerHTML = 'Edit Profile'
+    btns.append(editProfile)
+    
+    const deleteProfile = document.createElement('button')
+    deleteProfile.innerHTML = 'Delete Profile'
+    deleteProfile.classList.add('hidden')
+    btns.append(deleteProfile)
+    
+    const submitProfile = document.createElement('button')
+    submitProfile.innerHTML = 'Submit'
+    submitProfile.classList.add('hidden')
+    btns.append(submitProfile)
+
+    editProfile.addEventListener('click', () => {
+        const allImgs = document.querySelectorAll('.editImg')
+
+        submitProfile.classList.remove('hidden')
+        deleteProfile.classList.remove('hidden')
+        username.removeAttribute('disabled')
+        email.removeAttribute('disabled')
+        for(let img of allImgs) {
+            img.classList.remove('hidden')
+            deleteProfile.classList.remove('hidden')
+        }
+
+        submitProfile.addEventListener('click', async () => {
+            try {
+                const userId = localStorage.getItem('userId')
+                const response = await axios.post(`${backendUrl}/user/update`, {
+                    authorization: userId,
+                    email: email.value,
+                    username: username.value
+                })
+                console.log(response)
+            } catch (error) {
+               console.log('Submit updated user error:', error) 
+            }
+        })
+    })
+
+    deleteProfile.addEventListener('click', async () => {
+        try {
+            const userId = localStorage.getItem('userId')
+
+            const response = await axios.delete(`${backendUrl}/user/destroy`, {
+                headers: {
+                    authorization: userId
+                }
+            })
+            console.log('DELETE RESPONSE', response)
+        } catch (error) {
+            console.log('Delete user error:', error)
+        }
+    })
+
 
     // savedLocations
-    buildLocationsDisplay(user.locations, savedLocationsDiv) // will need to refactor to make work
+    buildLocationsDisplay(user.locations, savedLocationsDiv)
 }
 
 // LOCATIONS
@@ -199,6 +277,9 @@ async function getAllLocations() {
 }
 function buildLocationsDisplay(data, parentDiv) {
     // add/remove, city, country, latitude, longitude
+    while(parentDiv.firstChild) {
+        parentDiv.firstChild.remove()
+    }
     buildLocationLabels()
 
     data.forEach(local => {
@@ -206,10 +287,12 @@ function buildLocationsDisplay(data, parentDiv) {
         row.classList.add('locationRow')
         parentDiv.append(row)
 
-        const imgP = document.createElement('p')
         const imgBtn = document.createElement('img')
+        const imgP = document.createElement('p')
+        imgBtn.classList.add('editImg')
         if(parentDiv === savedLocationsDiv) {
             imgBtn.setAttribute('src', '../assets/flaticon/png/006-x-button.png')
+            imgBtn.classList.add('hidden')
         } else if(parentDiv === allLocationsDiv) {
             imgBtn.setAttribute('src', '../assets/flaticon/png/005-plus.png')
         }
@@ -295,17 +378,16 @@ async function associateLocation(local) {
 }
 async function deleteAssociation(local) {
     try {
-        console.log('local', local)
         const userId = localStorage.getItem('userId')
         const response = await axios.delete(`${backendUrl}/locations/un-associate`, {
             headers: {
                 authorization: userId,
-            },
-            local
+                localId: local.id
+            }
         })
-        console.log('UNASSOCIATE RESPONSE', response)
+        // console.log('UNASSOCIATE RESPONSE', response)
         if(response.status === 200) {
-            console.log(response.data.message, response.data.association)
+            console.log(response.data.message, (response.data.association === 1))
         }
     } catch (error) {
         console.log('Un-Association error:', error)

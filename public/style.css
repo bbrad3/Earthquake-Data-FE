@@ -47,11 +47,13 @@ body {
 
 #show {
     background-color: rgba(255, 255, 255, 0.25);
-    margin: 0px 20px;
+    /* margin: 0px 20px; */
     width: 35%;
+    max-width: 500px;
+    min-width: 400px;
     position: absolute;
     top: 0px;
-    left: 65%;
+    right: 0%;
 }
 
 #signupView, #loginView {
@@ -77,14 +79,20 @@ form input, form button {
 
 #allLocations, #savedLocations {
     margin: 5px;
-    height: 90vh;
+    height: 80vh;
     overflow-y: scroll;
 }
-.locationRow, #userInfo {
+.locationRow, .userForm {
     background-color: coral;
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
+}
+.userForm {
+    justify-content: space-evenly;
+}
+.userForm input {
+    width: 30%;
 }
 .columnLabel {
     width: 20%;
