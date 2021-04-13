@@ -2,7 +2,7 @@
   "name": "earthquake-data-fe",
   "version": "1.0.0",
   "description": "Web application that connects to the USGS Earthquake Catalog. The user will be able to look up earthquake data based on different time-frames or locations. I am building this app to practice full-stack developement, user authorization, 3rd party API's, and play with Three.js!",
-  "main": "app.js",
+  "main": "./public/js/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
