@@ -12,7 +12,7 @@ app.use(async (req, res, next) => {
     try {
         if (process.env.NODE_ENV === 'production') {
           await replaceInFile({
-            files: filepath,
+            files: path.join(__dirname, 'app.js'),
             from: 'http://localhost:3001',
             to: 'https://earthquake-data-be.herokuapp.com'
           })
