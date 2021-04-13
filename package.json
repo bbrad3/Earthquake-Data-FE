@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "path": "^0.12.7",
+    "replace-in-file": "^6.2.0",
     "rowdy-logger": "^1.0.2"
   }
 }

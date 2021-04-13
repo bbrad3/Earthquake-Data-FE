@@ -4,9 +4,24 @@ const app = express()
 
 const routesReport = require('rowdy-logger').begin(app)
 const path = require('path')
+const replaceInFile = require('replace-in-file')
 
 // MIDDLEWARE
 app.use(morgan('dev'))
+app.use(async (req, res, next) => {
+    try {
+        if (process.env.NODE_ENV === 'production') {
+          await replaceInFile({
+            files: filepath,
+            from: 'http://localhost:3001',
+            to: 'https://earthquake-data-be.herokuapp.com'
+          })
+        }
+        next()
+    } catch (error) {
+        console.error('Replace-in-file error:', error)
+    }
+  })
 app.use(express.static('public'))
 // app.use(express.static(path.join(__dirname, 'misc')))
 // app.use(express.static(path.join(__dirname, 'js')))
