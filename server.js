@@ -7,21 +7,21 @@ const path = require('path')
 const replaceInFile = require('replace-in-file')
 
 // MIDDLEWARE
-app.use(morgan('dev'))
 app.use(async (req, res, next) => {
-    try {
-        if (process.env.NODE_ENV === 'production') {
-          await replaceInFile({
-            files: path.join(__dirname, 'app.js'),
-            from: 'http://localhost:3001',
-            to: 'https://earthquake-data-be.herokuapp.com'
-          })
-        }
-        next()
-    } catch (error) {
-        console.error('Replace-in-file error:', error)
+  try {
+    if (process.env.NODE_ENV === 'production') {
+      await replaceInFile({
+        files: path.join(__dirname, 'app.js'),
+        from: 'http://localhost:3001',
+        to: 'https://earthquake-data-be.herokuapp.com'
+      })
     }
-  })
+    next()
+  } catch (error) {
+    console.error('Replace-in-file error:', error)
+  }
+})
+app.use(morgan('dev'))
 app.use(express.static('public'))
 // app.use(express.static(path.join(__dirname, 'misc')))
 // app.use(express.static(path.join(__dirname, 'js')))
