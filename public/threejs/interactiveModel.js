@@ -160,16 +160,16 @@ const checkDATA = setInterval(() => {
                     earth.createMarker(quake[0], quake[1], count)
                     scene.add(earth)
                     count++
-                    console.log(len, length)
-                } else if(count > len){  // NEED TO DELETE MARKERS
-                    DATA.QUAKES = []
-                    for(let i = 0; i < count - 1; i++) {
-                        let selectedMarker = scene.getObjectByName(`m${i}`)
-                        console.log('marker', selectedMarker)
-                        scene.remove(selectedMarker)
-                    }
-                    count = 0
-                }
+                } 
+                // else if(count > len){  // NEED TO DELETE MARKERS
+                //     DATA.QUAKES = []
+                //     for(let i = 0; i < count; i++) {
+                //         let selectedMarker = scene.getObjectByName(`m${i}`)
+                //         console.log('marker', selectedMarker)
+                //         earth.remove(selectedMarker)
+                //     }
+                //     count = 0
+                // }
             }, index * delay)
         })
     }
