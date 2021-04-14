@@ -45,10 +45,20 @@ function init() {
     let quakePositions = []
     let locationPositions = []
 
+    let colors = []
+    const color = new THREE.Color()
+
     for(let point of pointsArr) {
         const {x, y, z} = flatPointsToCoords(point.x, point.y)
         positions.push(x, y, z)
-        console.log('new position');
+        console.log('new position', DATA.QUAKES);
+
+        const r = 255
+        const g = 255
+        const b = 255
+
+        color.setRGB(r, g, b)
+        colors.push(color.r, color.g, color.b)
     }
     for(let quake of DATA.QUAKES){
         const lat = quake[0]
@@ -56,6 +66,13 @@ function init() {
         const { x, y, z } = coordsToPoints(lat, long, 470)
         positions.push(x, y, z)
         console.log('new quake position')
+
+        const r = 255
+        const g = 0
+        const b = 0
+
+        color.setRGB(r, g, b)
+        colors.push(color.r, color.g, color.b)
     }
     
     quakeGeometry.setAttribute( 'position', new THREE.Float32BufferAttribute( quakePositions, 3 ))
@@ -122,7 +139,6 @@ function animate() {
 
     render();
     stats.update();
-    // console.log(scene.children);
     // console.log('DATA', DATA.DBLOCATIONS.length, DATA.QUAKES.length)
 
 }
@@ -131,22 +147,8 @@ function render() {
 
     const time = Date.now() * 0.001;
 
-    // points.rotation.x = time * 0.0;
-    // points.rotation.y = time * 0.2;
-
     renderer.render( scene, camera );
 
-}
-function addQuakes() {
-    console.log('made it here');
-    if(DATA.QUAKES.length > 0) {
-
-        
-        
-    
-        
-        scene.add( quakes )
-    }
 }
 
 function flatPointsToCoords(x, y) {

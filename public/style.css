@@ -4,9 +4,10 @@ body {
 }
 
 #navbar {
-    background-color: rgb(205, 254, 238);
+    background-color: rgb(0, 0, 0);
+    color:rgba(255, 134, 41, 0.8);
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     /* align-content: center; */
     width: 100vw;
     margin: 0 auto;
@@ -23,9 +24,10 @@ body {
     font-size: 2rem;
 }
 #small-links {
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
+    margin-right: 30px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-content: center;
     align-self: flex-end;
     width: 30%;
