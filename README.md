@@ -4,14 +4,14 @@
 > Web application that connects to the USGS Earthquake Catalog. The user will be able to look up earthquake data based on different time-frames or locations.
 > I am building this app to practice full-stack developement, user authorization, 3rd party API's, and play with Three.js!
 ## WIREFRAMES
-![ERD](misc/ERD.png)
+![ERD](public/assets/ERD.png)
 
 - Home Page: Shows globe animated to spin and example quakes animations.
-![Home-Page](misc/Home-Page.png)
+![Home-Page](public/assets/Home-Page.png)
 - Profile Page: Shows user saved locations in a table, and on the animated globe.
-![Profile-Page](misc/Profile-Page.png)
+![Profile-Page](public/assets/Profile-Page.png)
 - Search Page: Allows the user to make several searchs and shows results in a table, and on the animated globe.
-![Search-Page](misc/Search-Page.png)
+![Search-Page](public/assets/Search-Page.png)
 ## USER STORIES
 - When the user logs on, they see a globe with their location on it.
 - The user can navigate to the search page where they can search for earthquakes by time-frame. (hr, day, week)
