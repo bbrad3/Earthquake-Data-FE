@@ -28,7 +28,7 @@
 - GET /quakes/past-week
 - GET /quakes/by-location
 
-## URL's
+## API ENDPOINT's
 - https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
 - https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson
 - https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson
@@ -47,3 +47,9 @@
 - Animate globe
 - Animate quakes
 - Focus globe view on a specific quake
+
+## REFERENCES
+- https://jsfiddle.net/neeh/4n9ymu2c/63/
+- https://blog.mastermaps.com/2013/09/creating-webgl-earth-with-threejs.html
+- https://timcchang.com/threejs-globe#drawing-a-mercator-projection-using-dots
+- https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_points.html
